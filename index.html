@@ -38,6 +38,7 @@
             div#chartDescription {position: absolute; top: 50px; left: 50px;}
         </style>
     </head>
+
     <body onload='init()'>
         <script> 
             async function init() {
@@ -62,7 +63,6 @@
                             .attr('height', selectionHeight)
                             .append('g');
 
-
                 // dropdown list
                 var allGroup = ['All', 'Diesel', 'Electricity', 'Gasoline']
 
@@ -77,7 +77,6 @@
                             .attr('width', canvasWidth)
                             .attr('height', 70)
                             .append('g');
-
 
                 data = await d3.csv('https://flunky.github.io/cars2017.csv');
                 var array = data.map(function(d) {
@@ -133,39 +132,11 @@
                     .style("border-radius", "5px")
                     .style("padding", "10px")
 
-                /*var tooltip = d3.select("#chartArea").append('g')
-                .append("div")
-                .style("opacity", 0)
-                .attr("class", "tooltip")
-                .style("background-color", "white")
-                .style("border", "solid")
-                .style("border-width", "2px")
-                .style("border-radius", "5px")
-                .style("padding", "5px")*/
-
                 var mouseover = function(d) {
                     console.log('mousemove')
                     tooltip.style("opacity", 1)
                 }
-                /*var bisect = d3.bisector(function(d) { return d.scatter_x_scale; }).left;
-                var mousemove = function(d) {
-                    //console.log('mousemove')
-                    var x0 = scatter_x_scale.invert(d3.mouse(this)[0]);
-                    var y0 = scatter_y_scale.invert(d3.mouse(this)[1]);
-                    console.log(x0, y0)
-                    var i = bisect(data, x0, 1);
-                    selectedData = data[i]
-                    //console.log(x0, i)
-                    tooltip
-                    .html("x:" + selectedData.Make + "  -  " + "y:" + selectedData.AverageCityMPG)
-                    .attr("x", scatter_x_scale(selectedData.AverageCityMPG)+15)
-                    .attr("y", scatter_y_scale(selectedData.AverageHighwayMPG))
-                    //tooltip
-                    //.html("The exact value of<br>this cell is: " + d.Make)
-                    //.style("left", (d3.mouse(this)[0]+70) + "px")
-                    //.style("top", (d3.mouse(this)[1]) + "px")
-                }*/
-
+                
                 var mousemove_fuel = function(d) {
                     tooltip
                     .html('Brand: ' + d.Make + '<br>' + 'Average City MPG: ' + d.AverageCityMPG + '<br>' + 'Average Highway MPG: ' + d.AverageHighwayMPG)
@@ -181,7 +152,6 @@
                 }
 
                 var mousemove_brand_city = function(d) {
-                    console.log('brand')
                     tooltip
                     .html('Brand: ' + d.Make + '<br>' + 'Average City MPG: ' + d.AverageCityMPG)
                     .style("left", (d3.mouse(this)[0]+180) + "px")
@@ -189,7 +159,6 @@
                 }
 
                 var mousemove_brand_highway = function(d) {
-                    console.log('brand')
                     tooltip
                     .html('Brand: ' + d.Make + '<br>' + 'Average City MPG: ' + d.AverageHighwayMPG)
                     .style("left", (d3.mouse(this)[0]+380) + "px")
@@ -206,7 +175,7 @@
                             .attr('fill', 'black')
                             .attr('transform','translate(340,40)')
                             .style('font-size', 14)
-                            .text('Average City MPG');
+                            .text('Average City Miles Per Gallon (MPG)');
                         
                     svg_chart.append('g')
                         .attr('transform', 'translate('+margin.left+','+margin.top+')')
@@ -217,7 +186,7 @@
                             .attr('x', -(chartHeight/2))
                             .style('text-anchor', 'middle')
                             .style('font-size', 14)
-                            .text('Average Highway MPG');
+                            .text('Average Highway Miles Per Gallon (MPG)');
                 }
 
                 function plotDots(dataFilter, type) {
@@ -245,40 +214,7 @@
 
                 // default chart is by fuel type
                 fuelChart()
-                function fuelChart() {
-                    // x-axis
-                    /*var x = d3.scaleLog().domain([10, 150]).range([0, chartWidth]);
-                    var x_axis = d3.axisBottom(x).tickValues([10,20,50,100]).tickFormat(d3.format('~s'));
-                    svg_chart.append('g')
-                    .attr('transform', 'translate('+margin.left+','+(chartHeight+margin.top)+')')
-                    .call(x_axis)
-                    .append('text')
-                        .attr('fill', 'black')
-                        .attr('transform','translate(240,40)')
-                        .style('font-size', 14)
-                        .text('Average City MPG');
-
-                    // y-axis
-                    var y = d3.scaleLog().domain([10, 150]).range([chartHeight,0]);
-                    var y_axis = d3.axisLeft(y).tickValues([10,20,50,100]).tickFormat(d3.format('~s'));
-                    svg_chart.append('g')
-                    .attr('transform', 'translate('+margin.left+','+margin.top+')')
-                    .call(y_axis).append('text')
-                        .attr('fill', 'black')
-                        .attr('transform', 'rotate(-90)')
-                        .attr('y', -40)
-                        .attr('x', -(chartHeight/2))
-                        .style('text-anchor', 'middle')
-                        .style('font-size', 14)
-                        .text('Average Highway MPG');*/
-
-                    // Initialize dots with group a
-                    /*var dot = svg_chart.selectAll('circle').data(data).enter().append('circle')
-                        .attr('transform', 'translate('+margin.left+','+margin.top+')')
-                        .attr('cx', function(d) { return x(+d.AverageCityMPG) })
-                        .attr('cy', function(d) { return y(+d.AverageHighwayMPG) })
-                        .attr('r', 2)*/
-                    
+                function fuelChart() {                  
                     svg_chartTitle.append('text')
                         .attr('y', 20)
                         .text('Car Fuel Efficiency by Fuel Type')
@@ -295,7 +231,6 @@
                         .text('You can filter by "Fuel Type" or click the above buttons to discover more.')
                         .style('font-size', 16)
 
-                    // dropdown title
                     svg_dropdownTitle.append('text')
                         .attr('y', 20)
                         .text('Filter by Fuel Type:')
@@ -323,30 +258,19 @@
                         
                     // Dots
                     plotDots(data, 'fuel')
-                    /*var dot = svg_chart.append('g')
-                                .attr('transform', 'translate('+margin.left+','+margin.top+')')
-                                .selectAll('circle').data(data).enter().append('circle')
-                                .attr('cx', function(d){return scatter_x_scale(d.AverageCityMPG)})
-                                .attr('cy', function(d){return scatter_y_scale(d.AverageHighwayMPG)})
-                                .attr('r',  4)
-                            .on("mouseover", mouseover)
-                            .on("mousemove", mousemove)
-                            .on("mouseleave", mouseleave)*/
                 }
                 
                 // Update chart based on dropdown selection
                 d3.select('#dropdown').on('change', function(d) {
-                    // recover the option that has been chosen
                     var dropdownOption = d3.select(this).property('value')
                     svg_chart.selectAll('circle').remove()
                     svg_chart.select('.annotations').remove()
-                    // run the updateChart function with this selected option
+
                     fuelDropdown(dropdownOption, currentButtonSelection)
                 })
 
                 // Update chart after click fuel button
                 d3.select('#fuelButton').on('click', function(d) {
-                    //previousButtonSelection = currentButtonSelection
                     currentButtonSelection = 'fuel'
                     clearScene()
 
@@ -358,7 +282,6 @@
 
                 // Update chart after click engine button
                 d3.select('#engineButton').on('click', function(d) {
-                   // previousButtonSelection = currentButtonSelection
                     currentButtonSelection = 'engine'
                     clearScene()
 
@@ -370,7 +293,6 @@
                 
                 // Update chart after click engine button
                 d3.select('#brandButton').on('click', function(d) {
-                    //previousButtonSelection = currentButtonSelection
                     currentButtonSelection = 'brand'
                     
                     clearScene()
@@ -383,7 +305,6 @@
                 })
 
                 function engineButton() {
-                    // update chart title
                     svg_chartTitle.append('text')
                         .attr('y', 20)
                         .text('Car Fuel Efficiency by Engine Cylinders')
@@ -400,7 +321,6 @@
                         .text('You can filter by "Fuel Type" or click the above buttons to discover more.')
                         .style('font-size', 16)
 
-                    // dropdown title
                     svg_dropdownTitle.append('text')
                         .attr('y', 20)
                         .text('Filter by Fuel Type:')
@@ -439,25 +359,15 @@
                         .attr('fill', "blue")
                     
                     plotDots(data, 'engine')
-                    /*dot = svg_chart.selectAll('circle').data(data).enter().append('circle')
-                        .attr('transform', 'translate('+margin.left+','+margin.top+')')
-                        .attr('cx', function(d) { return scatter_x_scale(+d.AverageCityMPG) })
-                        .attr('cy', function(d) { return scatter_y_scale(+d.AverageHighwayMPG) })
-                        .attr('r', function(d){return 5+Number.parseInt(d.EngineCylinders)})
-                        .on("mouseover", mouseover)
-                        .on("mousemove", mousemove2)
-                        .on("mouseleave", mouseleave)*/
                 }
 
                 function brandButton() {
-                    // update chart title
                     svg_chartTitle.append('text')
                         .attr('y', 20)
-                        .text('Fuel Efficiency by Brand (Left Chart: City MPG; Right Chart: Highway MPG)')
+                        .text('Fuel Efficiency by Brand (Left: City MPG; Right: Highway MPG)')
                         .style('font-size', 20)
                         .attr('text-decoration', 'underline');
                     
-                    // update chart description
                     svg_chartDescription.append('text')
                         .attr('y', 20)
                         .text('The two bar charts shows the fuel efficiency by brand, in descending order of fuel efficiency. On the left is')
@@ -493,7 +403,7 @@
                             .attr('fill', 'black')
                             .attr('transform','translate(130,40)')
                             .style('font-size', 14)
-                            .text('Average City MPG')
+                            .text('Average City Miles Per Gallon (MPG)')
                         .selectAll("text")
                             .attr("transform", "translate(-10,0)rotate(-45)")
                             .style("text-anchor", "end");
@@ -532,7 +442,7 @@
                             .attr('fill', 'black')
                             .attr('transform','translate(130,40)')
                             .style('font-size', 14)
-                            .text('Average Highway MPG')
+                            .text('Average Highway Miles Per Gallon (MPG)')
                         .selectAll("text")
                             .attr("transform", "translate(-10,0)rotate(-45)")
                             .style("text-anchor", "end");
@@ -560,8 +470,6 @@
                         .on("mouseover", mouseover)
                         .on("mousemove", mousemove_brand_highway)
                         .on("mouseleave", mouseleave)
-
-
                 }
 
                 function fuelDropdown(dropdownOption, currentButtonSelection) {
@@ -569,14 +477,6 @@
                         // Filter data and plot new dots
                         if (dropdownOption == 'All') { var dataFilter = data.filter(function(d) {return d});}
                         else {var dataFilter = data.filter(function(d) { return d.Fuel == dropdownOption });}
-                        /*dot = svg_chart.selectAll('circle').data(dataFilter).enter().append('circle')
-                            .attr('transform', 'translate('+margin.left+','+margin.top+')')
-                            .attr('cx', function(d) { return scatter_x_scale(+d.AverageCityMPG) })
-                            .attr('cy', function(d) { return scatter_y_scale(+d.AverageHighwayMPG) })
-                            .attr('r', 4)
-                            .on("mouseover", mouseover)
-                            .on("mousemove", mousemove)
-                            .on("mouseleave", mouseleave)*/
                         
                         if (dropdownOption == 'Electricity') {
                             const annotations = [{note: {
@@ -588,6 +488,7 @@
                             
                             const makeAnnotations = d3.annotation().annotations(annotations)
                             svg_chart.append('g').style('font-size', 14).call(makeAnnotations)
+                            
                             plotDots(dataFilter, 'fuel')
                         }
                         
@@ -601,6 +502,7 @@
 
                             const makeAnnotations = d3.annotation().annotations(annotations)
                             svg_chart.append('g').style('font-size', 14).call(makeAnnotations)
+                            
                             plotDots(dataFilter, 'fuel')
                         }
                         
@@ -615,8 +517,8 @@
 
                             const makeAnnotations = d3.annotation().annotations(annotations)
                             svg_chart.append('g').style('font-size', 14).call(makeAnnotations)
+                            
                             plotDots(dataFilter, 'fuel')
-
                         }
 
                         if (dropdownOption == 'All') {
@@ -629,8 +531,8 @@
 
                             const makeAnnotations = d3.annotation().annotations(annotations)
                             svg_chart.append('g').style('font-size', 14).call(makeAnnotations)
+                            
                             plotDots(dataFilter, 'fuel')
-
                         }
                     }
                 
@@ -638,17 +540,7 @@
                         // Filter data and plot new dots
                         if (dropdownOption == 'All') { var dataFilter = data.filter(function(d) {return d});}
                         else {var dataFilter = data.filter(function(d) { return d.Fuel == dropdownOption });}
-                        
-                        /*dot = svg_chart.selectAll('circle').data(dataFilter).enter().append('circle')
-                            .attr('transform', 'translate('+margin.left+','+margin.top+')')
-                            .attr('cx', function(d) { return scatter_x_scale(+d.AverageCityMPG) })
-                            .attr('cy', function(d) { return scatter_y_scale(+d.AverageHighwayMPG) })
-                            .attr('r', function(d){return 5+Number.parseInt(d.EngineCylinders)})
-                            .on("mouseover", mouseover)
-                            .on("mousemove", mousemove2)
-                            .on("mouseleave", mouseleave)*/
-                        
-
+                                     
                         if (dropdownOption == 'Electricity') {
                             const annotations = [{note: {
                             label: 'Electric cars have the least number of engine cylinders.',
@@ -659,8 +551,8 @@
 
                             const makeAnnotations = d3.annotation().annotations(annotations)
                             svg_chart.append('g').style('font-size', 14).call(makeAnnotations)
+                            
                             plotDots(dataFilter, 'engine')
-
                         }
                         
                         if (dropdownOption == 'Diesel') {
@@ -673,8 +565,8 @@
 
                             const makeAnnotations = d3.annotation().annotations(annotations)
                             svg_chart.append('g').style('font-size', 14).call(makeAnnotations)
+                            
                             plotDots(dataFilter, 'engine')
-
                         }
                         
                         if (dropdownOption == 'Gasoline') {
@@ -687,8 +579,8 @@
 
                             const makeAnnotations = d3.annotation().annotations(annotations)
                             svg_chart.append('g').style('font-size', 14).call(makeAnnotations)
+                            
                             plotDots(dataFilter, 'engine')
-
                         }
 
                         if (dropdownOption == 'All') {
@@ -712,8 +604,8 @@
                                 .style('stroke-dasharray', ('3,3'))
                             svg_chart.selectAll(".connector-end")
                                 .attr('stroke', "blue")
+                            
                             plotDots(dataFilter, 'engine')
-
                         }
                     }
                 }
